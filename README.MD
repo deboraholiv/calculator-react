@@ -15,7 +15,7 @@ A simple calculator
 
 ```bash
 npm install
-npm run dev
+npm start
 
 (or)
 
@@ -26,4 +26,4 @@ yarn start
 
 #### To do
 
-- [ ] operations with more than two numbers
+- [x] operations with more than two numbers
