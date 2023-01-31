@@ -6,68 +6,72 @@ import { useState } from "react"
 function App() {
 
   const[number, setNumber] = useState(0)
-  const[secondNumber, setSecondNumber] = useState(0)
   const [operation, setOperation] = useState()
+  const[display, setDisplay] = useState(0)
 
   const inputNumber = (e) =>{
-    if(number===0) {
-      setNumber(e.target.value)
+    if(display===0) {
+      setDisplay(e.target.value)
     }else{
-      setNumber(number + e.target.value)
+      setDisplay(display + e.target.value)
     }
   }
 
   const handlerOnClear = () => {
     setNumber(0)
-    setSecondNumber(0)
+    setDisplay(0)
     setOperation('')
   }
   
   const handlerDelele = () =>{
-    if(number===0){
-      setNumber(0)
-    }else if(number.length === 1){
-      setNumber(0)
+    if(display===0){
+      setDisplay(0)
+    }else if(display.length === 1){
+      setDisplay(0)
     }else{
-      setNumber(number.substring(0, number.length - 1))
+      setDisplay(display.substring(0, display.length - 1))
     }
   }
 
   const handlerPorcent = () => {
-    setNumber(number/100)
+    setDisplay(display/100)
   }
 
   const handlerSing =() => {
-    if(number>0) {
-      setNumber(-number)
+    if(display>0) {
+      setDisplay(-display)
     }else{
-      setNumber(Math.abs(number))
+      setDisplay(Math.abs(display))
     }
   }
 
   const handlerOperator = (e) => {
-    setOperation(e.target.value)
-    setSecondNumber(number);
-    setNumber(0)
+    if(number){
+      setNumber(handlerCalculate(e.target.value))
+    } else {
+      setNumber(display)
+      setOperation(e.target.value)
+    }
+    setDisplay(0)
   }
 
-  const handlerCalculate = () => {
-    switch(operation){
+  const handlerCalculate = (operator) => {
+    switch(operator){
       case '+':
-        setNumber(parseFloat(secondNumber) + parseFloat(number));
-        break;
+        return(parseFloat(number) + parseFloat(display));
       case '-':
-        setNumber(parseFloat(secondNumber) - parseFloat(number));;
-        break;
+        return(parseFloat(number) - parseFloat(display));;
       case 'x':
-        setNumber(parseFloat(secondNumber) * parseFloat(number));
-        break;
+        return(parseFloat(number) * parseFloat(display));
       case '/':
-        setNumber(parseFloat(secondNumber) / parseFloat(number));
-        break;
+        return(parseFloat(number) / parseFloat(display));
       default: 
         break;
-    }
+    } 
+  }
+
+  const handleEquals = () => {
+    setDisplay(handlerCalculate(operation))
   }
 
 
@@ -75,7 +79,7 @@ function App() {
     <Container>
       <h1>A Simple Calculator</h1>
       <Content>
-        <Display value={number}/>
+        <Display value={display}/>
         <Cal>
           <Button value={'c'} onClick={handlerOnClear}/>
           <Button value={'+/-'} onClick={handlerSing}/>
@@ -96,7 +100,7 @@ function App() {
           <Button value={'del'} onClick={handlerDelele}/>
           <Button value={0} onClick={inputNumber}/>
           <Button value={'.'} onClick={inputNumber}/>
-          <Button value={'='} onClick={handlerCalculate}/>
+          <Button value={'='} onClick={handleEquals}/>
         </Cal>
       </Content>
         <p>Make by Deborah Oliveira</p>
