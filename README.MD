@@ -27,3 +27,6 @@ yarn start
 #### To do
 
 - [x] operations with more than two numbers
+
+#### Feature
+- [ ] Scientific Calculator 
